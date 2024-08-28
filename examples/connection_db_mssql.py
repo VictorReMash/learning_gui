@@ -1,33 +1,25 @@
-import pyodbc
+import psycopg2
 
-# Настройки подключения
-server = 'Server2008'  # Имя сервера или IP-адрес
-database = 'faraon_test'    # Имя базы данных
-username = 'МашонкинВР'    # Имя пользователя
-password = '250269'    # Пароль
-
-# Создаем строку подключения
-connection_string = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connection = None  # Инициализируем переменную connection
 
 try:
-    # Устанавливаем соединение с базой данных
-    connection = pyodbc.connect(connection_string)
-
-    # Создаем курсор
+    connection = psycopg2.connect(
+        dbname="test",
+        user="Test",
+        password="Test1234+",
+        host="192.168.3.2",
+        port="5432"
+    )
     cursor = connection.cursor()
+    cursor.execute("SELECT version();")
+    db_version = cursor.fetchone()
+    print("Вы подключены к базе данных - ", db_version)
 
-    # Выполняем запрос
-    cursor.execute("SELECT @@VERSION;")
+except Exception as error:
+    print("Ошибка при подключении к PostgreSQL:", error)
 
-    # Получаем результат
-    row = cursor.fetchone()
-    while row:
-        print(row[0])
-        row = cursor.fetchone()
-
-    # Закрываем соединение
-    cursor.close()
-    connection.close()
-
-except pyodbc.Error as e:
-    print(f"Ошибка подключения к базе данных: {e}")
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто")

@@ -14,10 +14,8 @@ def submit_data(event=None):
 
 # Создаем главное окно
 root = tk.Tk()
-root.title("Пример ввода данных")
+root.title("Авторизация пользователя")
 
-# # Устанавливаем окно на полный экран
-# root.attributes("-fullscreen", True)
 
 # Получаем размеры экрана
 screen_width = root.winfo_screenwidth()
@@ -26,11 +24,9 @@ screen_height = root.winfo_screenheight()
 # Устанавливаем размеры окна
 root.geometry(f"{screen_width}x{screen_height}")
 
-# # Привязываем обработчик события нажатия клавиши "Esc"
-# root.bind("<Escape>", toggle_fullscreen)
 
 # Создаем метку для инструкций
-instruction_label = tk.Label(root, text="Введите что-нибудь:")
+instruction_label = tk.Label(root, text="Пользователь:")
 instruction_label.pack(pady=10)
 
 # Создаем поле ввода
